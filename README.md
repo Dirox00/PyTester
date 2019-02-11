@@ -48,9 +48,9 @@ FOR CHANGING THE PROBLEMS TO BE EVALUATED:
 
 **IMPORTANT!!**
 
-  For this to work, in the solutions code the one only thing that shall be
+  For this to work, in the solutions programs the only thing that shall be
   respected is not getting any argument inside the `input()` functions, otherwise
-  our program wont work.
+  the program wont work.
 
 ****
 
