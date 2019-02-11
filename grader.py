@@ -1,22 +1,24 @@
-def test(exercise:str, expected_outputs:list, inputs:list=False):
-  ''' Esta función comprueba si metiendo un determinado input a un programa
-      devuelve el output esperado.  '''
-  #if not inputs:
-  #  inputs = [[None] for out in expected_outputs] #If ther's no inputs a None's list would be created.
+import re
 
-  r_exercise = 'import sys\nold_stdout, sys.stdout = sys.stdout, open(r"log.txt", "w")\n' + exercise + '\nsys.stdout = old_stdout' #Redirects the output to a folder that can be later readed.
+def test(exercise:str, expected_outputs:list, inputs:list=False)-> tuple:
+  ''' This function checks the output of a python program given an input or list of inputs.
+  	  The output is a tuple with the form (tests passed, total of test).'''
+  if not inputs:
+    inputs = [[None] for _ in range(len(expected_outputs))] #If there's no inputs a None's list is created.
+
+  r_exercise = 'import sys\nold_stdout, sys.stdout = sys.stdout, open(r"log.txt", "w")\n' + exercise + '\nsys.stdout = old_stdout' #Redirects the output to a file that can be readed later on.
   passed = 0 #Successfully passed tests
   for inpt, output in zip(inputs, expected_outputs):
     #In order to give information every time an input is given, a list with all the inputs is created, and the elements of that are being picked progressively.
-    exercise = 'inputs = {}\n'.format(inpt) + r_exercise.replace('input()', 'inputs.pop(0)')
-    exec(exercise, globals()) #Ejecuta el ejercicio
+    exercise = 'inputs = {}\n'.format(inpt) + re.sub(r'input\(([\',\"].*[\',\"])?\)', 'inputs.pop(0)', r_exercise)
+    exec(exercise, {}) #Executes the exercise
     with open('log.txt') as f:
       a = f.read()
-      if a == output: #Checks whether the output is the expected one or not.
+      if a == output: #Checks whether the output is the expected or not.
         passed += 1
   return passed, len(expected_outputs)
 
-#Inputs and expected outputs for all the problems: 
+#Inputs and expected outputs for all the problems:
 input1 = [['Pepe'], ['Lucas'], ['Paco']]
 output1 = ['Hello world, my name is Pepe\n',
             'Hello world, my name is Lucas\n',
