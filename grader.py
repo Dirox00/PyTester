@@ -10,7 +10,7 @@ def test(exercise:str, expected_outputs:list, inputs:list=False)-> tuple:
   passed = 0 #Successfully passed tests
   for inpt, output in zip(inputs, expected_outputs):
     #In order to give information every time an input is given, a list with all the inputs is created, and the elements of that are being picked progressively.
-    exercise = 'inputs = {}\n'.format(inpt) + re.sub(r'input\(([\',\"].*[\',\"])?\)', 'inputs.pop(0)', r_exercise)
+    exercise = 'inputs = {}\n'.format(inpt) + re.sub(r'input\(([\',\"]\w*[\',\"])?\)', 'inputs.pop(0)', r_exercise)
     exec(exercise, {}) #Executes the exercise
     with open('log.txt') as f:
       a = f.read()
